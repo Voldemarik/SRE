@@ -1,0 +1,18 @@
+[voldemar@ThinkBook-16P ~]$ kubectl get pods -o custom-columns=NAME:.metadata.name,UID:.metadata.uid,RESTARTS:.status.containerStatuses[0].restartCount
+NAME                                  UID                                    RESTARTS
+hw2-app-deployment-84cc59b674-cjdjs   8f7d2790-8d20-4ac8-a1ba-c3bcb7e72a49   0
+[voldemar@ThinkBook-16P ~]$ curl -s http://localhost:30080/message; echo ""
+{"message":"hello","version":"v1","feature-enabled":false,"pod":"hw2-app-deployment-84cc59b674-cjdjs"}
+[voldemar@ThinkBook-16P ~]$ curl -s http://localhost:30080/admin/feature?enabled=true; echo ""
+{"enabled":true,"feature":"new-greeting"}
+[voldemar@ThinkBook-16P ~]$ curl -s http://localhost:30080/message; echo ""
+{"message":"Hello from new feature flag!","version":"v1","feature-enabled":true,"pod":"hw2-app-deployment-84cc59b674-cjdjs"}
+[voldemar@ThinkBook-16P ~]$ curl -s http://localhost:30080/admin/feature?enabled=false; echo ""
+{"enabled":false,"feature":"new-greeting"}
+[voldemar@ThinkBook-16P ~]$ curl -s http://localhost:30080/message; echo ""
+{"message":"hello","version":"v1","feature-enabled":false,"pod":"hw2-app-deployment-84cc59b674-cjdjs"}
+[voldemar@ThinkBook-16P ~]$ kubectl get pods -o custom-columns=NAME:.metadata.name,UID:.metadata.uid,RESTARTS:.status.containerStatuses[0].restartCount
+NAME                                  UID                                    RESTARTS
+hw2-app-deployment-84cc59b674-cjdjs   8f7d2790-8d20-4ac8-a1ba-c3bcb7e72a49   0
+[voldemar@ThinkBook-16P ~]$
+

@@ -1,0 +1,10 @@
+server:
+  shutdown: graceful
+  port: 8080
+spring:
+  application:
+    name: app
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+app:
+  version: ${APP_VERSION:v1}

@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hw1-app-deployment
+  name: hw2-app-deployment
   labels:
-    app: hw1-app
+    app: hw2-app
 spec:
-  replicas: 3
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -13,16 +13,16 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: hw1-app
+      app: hw2-app
   template:
     metadata:
       labels:
-        app: hw1-app
+        app: hw2-app
     spec:
       terminationGracePeriodSeconds: 20
       containers:
         - name: app
-          image: hw1-app:v1
+          image: hw2-app:v1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

@@ -45,16 +45,7 @@ public class AppController {
 
     @GetMapping("/admin/feature")
     public Map<String, Object> toggleFeature(@RequestParam boolean enabled) {
-        if (enabled != null) {
-            if (enabled.equals("true")) {
-                newGreeting.set(true);
-            } else if (enabled.equals("false")) {
-                newGreeting.set(false);
-            } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                        "enabled must be 'true' or 'false'");
-            }
-        }
+        newGreetingFlag.set(enabled);
         return Map.of("feature", "new-greeting", "enabled", newGreetingFlag.get());
     }
 

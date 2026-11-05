@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @RestController
 public class AppController {
     private final AtomicBoolean isReady = new AtomicBoolean(true);
+    private final AtomicBoolean newGreetingFlag = new AtomicBoolean(false);
     private final String appVersion;
     private final String pod;
 
@@ -28,6 +29,32 @@ public class AppController {
     @GetMapping("/")
     public Map<String, String> hello() {
         return Map.of("message", "hello", "version", appVersion, "pod", pod);
+    }
+    
+    @GetMapping("/message")
+    public Map<String, Object> message() {
+        String text = newGreetingFlag.get() ? "Hello from new feature flag!" : "hello";
+        return Map.of(
+            "message", text, 
+            "feature-enabled", newGreetingFlag.get(), 
+            "version", appVersion, 
+            "pod", pod
+        );
+    }
+
+    @GetMapping("/admin/feature")
+    public Map<String, Object> toggleFeature(@RequestParam boolean enabled) {
+        if (enabled != null) {
+            if (enabled.equals("true")) {
+                newGreeting.set(true);
+            } else if (enabled.equals("false")) {
+                newGreeting.set(false);
+            } else {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "enabled must be 'true' or 'false'");
+            }
+        }
+        return Map.of("feature", "new-greeting", "enabled", newGreetingFlag.get());
     }
 
     @GetMapping("/live")
